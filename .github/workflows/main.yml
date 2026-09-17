@@ -1,0 +1,54 @@
+name: Lint Code
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  lint_python:
+    name: Lint Python Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Flake8
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Lint Django Python
+        run: |
+          flake8 server/djangoapp server/djangoproj \
+            --ignore=E501,W503 \
+            --exclude=migrations
+          echo "Linted all the python files successfully"
+
+  lint_js:
+    name: Lint JavaScript Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install JSHint
+        run: npm install jshint --global
+
+      - name: Lint JavaScript
+        run: |
+          jshint --esversion 8 server/database/*.js
+          echo "Linted all the js files successfully"
