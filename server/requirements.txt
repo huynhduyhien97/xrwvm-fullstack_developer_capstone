@@ -1,5 +1,5 @@
-requests
-Django
-Pillow
-gunicorn
-python-dotenv
+requests>=2.32,<3
+Django>=5.2,<5.3
+Pillow>=10.4
+gunicorn>=23
+python-dotenv>=1.0
